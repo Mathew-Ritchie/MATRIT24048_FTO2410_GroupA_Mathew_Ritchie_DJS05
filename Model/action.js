@@ -1,17 +1,26 @@
-const increase = (state) => {
+import { initialState } from "./store.js";
+
+/**
+ * @typedef { {type: 'increase'} |{type: decrease} | {type: get} } Action
+ */
+
+export const increase = () => {
   return {
-    ...state,
-    value: state.value + 1,
+    type: "increase",
   };
 };
 
-const decrease = (state) => {
+export const decrease = () => {
   return {
-    ...state,
-    value: state.value - 1,
+    type: "decrease",
   };
 };
 
-const get = (state, callback) => {
-  callback(state.value);
+export const get = (callback) => {
+  return {
+    type: "get",
+    callback: callback,
+  };
 };
+
+export const Action = {};

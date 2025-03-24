@@ -1,93 +1,53 @@
-/**
- * @typedef {object} Item
- * @prop {number} value
- */
+import { Action } from "./action.js";
+import { reducer } from "./reducers.js";
 
-/**
- * @typedef {object} state
- * @prop { Item} value
- */
-
-/**
- * @callback Notify
- * @param {state} next
- * @param {state} prev
- */
-
-export const Notify = {};
-
-/**
- * @callback action
- * @param {state}
- * @returns
- *
- */
-
-export const Action = {};
-
-/**
- * @callback update
- * @param {action}
- */
-
-/**
- * @callback subscribe
- * @param {Notify} notify
- */
-
-/**
- * @callback EmptyFn
- */
-
-/**
- * @typedef {object} Store
- * @prop {update} update
- * @prop {subscribe} subscribe
- */
-
-const initialState = {
+export const initialState = {
   value: 0,
 };
+
+/**
+ * @type {Array<subscriber>}
+ */
+let subscribers = [];
+
 /**
  * @type {Array<State>}
  */
 const states = [initialState];
 
 /**
- * @type {Array<Notify>}
+ *
+ * @returns {State}
  */
-let notifiers = [];
+export const getState = () => {
+  //console.log("getState returning:", states[0]);
+  return Object.freeze({ ...states[0] });
+};
 
 /**
- *
- * @param {Action} action
+ * @param {Action}
  */
-export const update = (action) => {
-  if (typeof action !== "function") {
-    throw new Error("action is required to be a function");
-  }
 
-  const prev = Object.freeze({ ...states[0] });
-  const next = Object.freeze({ ...action(prev) });
+export const dispatch = (action) => {
+  const prev = getState();
+  const next = reducer(prev, action);
 
-  const handler = (notify) => notify(next, prev);
-
-  notifiers.forEach(handler);
+  const handler = (item) => item(prev, next);
+  subscribers.forEach(handler);
 
   states.unshift(next);
 };
 
 /**
- * @param {Notify} notify
- * @returns {}
+ * @param {Subscription} Subscription
  */
-export const subscribe = (notify) => {
-  notifiers.push(notify);
+export const subscribe = (Subscription) => {
+  subscribers.push(Subscription);
+  const handler = (item) => item !== Subscription;
 
   const unsubscribe = () => {
-    const handler = (current) => current !== notify;
-    const result = notifiers.filter(handler);
-    notifiers = result;
+    const newSubscribers = subscribers.filter(handler);
+    subscribers = newSubscribers;
   };
   return unsubscribe;
 };
