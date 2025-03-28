@@ -1,25 +1,22 @@
-import { initialState } from "./store.js";
-
 /**
- * @typedef { {type: 'increase'} |{type: decrease} | {type: get} } Action
+ * @typedef { {type: 'add'} |{type: subtract} | {type: get} } Action
  */
 
-export const increase = () => {
+export const add = () => {
   return {
-    type: "increase",
+    type: "add",
   };
 };
 
-export const decrease = () => {
+export const subtract = () => {
   return {
-    type: "decrease",
+    type: "subtract",
   };
 };
 
-export const get = (callback) => {
+export const reset = () => {
   return {
-    type: "get",
-    callback: callback,
+    type: "reset",
   };
 };
 

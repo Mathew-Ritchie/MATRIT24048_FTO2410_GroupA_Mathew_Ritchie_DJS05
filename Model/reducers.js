@@ -1,24 +1,32 @@
 import { initialState } from "./store.js";
 import { Action } from "./action.js ";
 
+/**
+ * Reducer function that updates the application state based on the dispatched action.
+ *
+ * @param {State} state - The current state of the application.
+ * @param {Action} action - The action to be processed.
+ * @returns {State} The new state of the application after applying the action.
+ */
 export const reducer = (state, action) => {
-  //console.log("Reducer received state:", state);
   switch (action.type) {
-    case "increase": {
+    case "add": {
       return {
         ...state,
         value: state.value + 1,
       };
     }
-    case "decrease": {
+    case "subtract": {
       return {
         ...state,
         value: state.value - 1,
       };
     }
-    case "get": {
-      action.callback(state.value);
-      return state;
+    case "reset": {
+      return {
+        ...state,
+        value: 0,
+      };
     }
 
     default:
