@@ -5,7 +5,7 @@ subscribe((_, next) => {
   console.log(_, next);
 });
 
-//calling of
+//calling of functions.
 
 dispatch(getState());
 

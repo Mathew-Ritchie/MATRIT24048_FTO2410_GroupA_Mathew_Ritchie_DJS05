@@ -23,3 +23,7 @@ The Store.js is where the global state is stored.
 The reducer.js contains the logic for the add(), subtract(), and reset() functions.
 
 The actions.js returns actions objects for add, subtract, and reset. These are used in the reducers Switch/case statement.
+
+# Challenges
+
+Still trying to completely rap my head around the concept of the store. But I believe it is a way to keep all data regarding the state in one central space, and having functions in other components/files able to subscribe to that store, know when there is a change in the stats, and use the state.
